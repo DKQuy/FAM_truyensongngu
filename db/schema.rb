@@ -10,14 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329115643) do
+ActiveRecord::Schema.define(version: 20170506005823) do
 
   create_table "binhluans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "content"
     t.integer  "truyen_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "user_id",    limit: 65535, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.index ["truyen_id"], name: "index_binhluans_on_truyen_id", using: :btree
+  end
+
+  create_table "finalrates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "truyen_id"
+    t.float    "rate",       limit: 24
+    t.integer  "number"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["truyen_id"], name: "index_finalrates_on_truyen_id", using: :btree
+  end
+
+  create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "truyen_id"
+    t.integer  "user_id"
+    t.float    "rate",       limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["truyen_id"], name: "index_ratings_on_truyen_id", using: :btree
   end
 
   create_table "theloais", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -27,14 +46,16 @@ ActiveRecord::Schema.define(version: 20170329115643) do
   end
 
   create_table "truyens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.text     "name_vn",    limit: 65535
-    t.text     "name_en",    limit: 65535
-    t.text     "content_vn", limit: 65535
-    t.text     "content_en", limit: 65535
+    t.text     "name_vn",     limit: 65535
+    t.text     "name_en",     limit: 65535
+    t.text     "content_vn",  limit: 65535
+    t.text     "content_en",  limit: 65535
     t.string   "image"
     t.integer  "theloai_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.float    "rate",        limit: 24,    null: false
+    t.integer  "rate_number",               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.index ["theloai_id"], name: "index_truyens_on_theloai_id", using: :btree
   end
 

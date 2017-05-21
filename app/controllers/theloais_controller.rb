@@ -3,6 +3,12 @@ class TheloaisController < ApplicationController
     @theloais=Theloai.all
     @theloai = Theloai.find(params[:id])
     @truyens = @theloai.truyens
+
+    # CODE LAY DU LIEU RATE TUNG TRUYEN ( CODE NAY DI KEM CODE TRONG view)
+    @average_rate=0
+    @Is_average_rate_int=true
+    @count=0
+
   end
   def new
     @theloai = Theloai.new
@@ -13,6 +19,12 @@ class TheloaisController < ApplicationController
     if @theloai.save
       redirect_to '/themtheloai'
     end
+  end
+  def destroy
+    @theloai = Theloai.find(params[:id])
+    @theloai.destroy
+
+    redirect_to themtheloai_path
   end
   private
   def theloai_params
